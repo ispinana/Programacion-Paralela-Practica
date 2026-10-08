@@ -155,3 +155,162 @@ El bucle for de esta función recorre todos los puntos [x, y, z], de esta manera
 for (int variable = 0; variable < funcion->num_variables; variable++)
 ```
 
+En cada iteración, la variable double derivada lo que hará será ir sumándose a cada derivada que se ejecute, por ejemplo:
+```text
+derivada = 0
+
+3xy aporta 6
+derivada = 6
+
+4yz aporta 0
+derivada = 6
+
+2x aporta 2
+derivada = 8
+
+5 aporta 0
+derivada = 8
+```
+
+Siendo el total de df/dx = 8.
+
+### Segundo bucle: recorrer monomios
+Teniendo este bucle:
+```C
+for (int m = 0; m < funcion->num_monomios; m++)
+```
+
+Se deriva el monomio en según cada iteración, realizando la función con dicho nombre.
+```C
+derivada += 
+derivar_monomio(&funcion->monomios[m], punto, funcion->num_variables, variable
+);
+```
+
+## 4. función derivar_monomio()
+Esta función recibe como parámetros el propio monomio, el punto en el que se encuentra, los números de variables y la variable que estamos derivando.
+
+Si estuvieramos en la primera iteración, seria tal que:
+```text
+monomio = 3xy
+punto = (1,2,3)
+variable = x
+```
+
+La primera comprobación al derivar es si el monomio contiene la variable respecto a la que estoy derivando ahora mismo, la que me interesa. En caso de que no la tenga, siemplemente se pondrá a 0:
+```C
+if (monomio->exponentes[variable] == 0) {
+    return 0.0;
+}
+```
+
+Como en el caso de ejemplo, 3xy tiene en monomios: [1, 1, 0] de [x, y, z], pasa este filtro sin problema. 
+
+Entonces, en este caso aplicamos la regla de la derivada, que es:
+```C
+double resultado = monomio->coeficiente * monomio->exponentes[variable];
+```
+
+Es decir:
+```text
+resultado = 3 * 1
+```
+
+### Tercer bucle
+Teniendo:
+```C
+for (int i = 0; i < num_variables; i++)
+```
+
+Este bucle recorren las variables [x, y, z] para que, después de haber derivado, se calcule el monomio resultante del punto. En caso de 3xy, el resultado para el coeficiente es 3 porque se calculó con 1, y para la variable "x" se debe de restar su exponente.
+```C
+int exponente = monomio->exponentes[i];
+
+if (i == variable) {
+    exponente--;
+}
+
+resultado *= potencia(punto[i], exponente)
+```
+
+Lo que implica:
+```text
+x --> x^n-1
+
+x^1 = x^0 = 1
+
+Resultado: 3y
+```
+
+## 5. Función potencia()
+Lo único que hace esta función es calcular  la base sobre su exponente, es decir:
+```text
+2^3 = 2 * 2 * 2
+```
+
+# Recorrido completo: resumen
+
+```text
+main
+ |
+ | crea la función:
+ | 3xy + 4yz + 2x + 5
+ |
+ | crea el punto:
+ | (1,2,3)
+ |
+ v
+calcular_gradiente
+ |
+ +-------------------------------------+
+ | variable = x                        |
+ |                                     |
+ |   monomio 3xy -> 6                  |
+ |   monomio 4yz -> 0                  |
+ |   monomio 2x  -> 2                  |
+ |   monomio 5   -> 0                  |
+ |                                     |
+ |   suma = 8                           |
+ +-------------------------------------+
+ |
+ +-------------------------------------+
+ | variable = y                        |
+ |                                     |
+ |   3xy -> 3                          |
+ |   4yz -> 12                         |
+ |   2x  -> 0                          |
+ |   5   -> 0                          |
+ |                                     |
+ |   suma = 15                          |
+ +-------------------------------------+
+ |
+ +-------------------------------------+
+ | variable = z                        |
+ |                                     |
+ |   3xy -> 0                          |
+ |   4yz -> 8                          |
+ |   2x  -> 0                          |
+ |   5   -> 0                          |
+ |                                     |
+ |   suma = 8                           |
+ +-------------------------------------+
+ |
+ v
+
+gradiente = [8,15,8]
+```
+
+# ¿Dónde paralelizar? 
+
+Especialmente, la paralelización seria en el bucle dentro de la función de calcular el gradiente:
+```C
+for (int variable = 0; variable < funcion->num_variables; variable++)
+```
+
+Y también en la derivación de monomios, es decir, en el otro bucle dentro del anterior:
+```C
+for (int m = 0; m < funcion->num_monomios; m++) {
+    derivada += derivar_monomio(...);
+}
+```
+
