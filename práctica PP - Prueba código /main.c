@@ -79,67 +79,143 @@ void calcular_gradiente(Function *funcion, double *punto, double *gradiente) {
     }
 }
 
+
+void calcular_gradientes(Function *funciones, int num_funciones, double *punto, double **gradientes) {
+    for(int i = 0; i < num_funciones; i++) {
+        calcular_gradiente(&funciones[i], punto, gradientes[i]);
+    }
+}
+
 int main()
 {
-    // f(x, y, z) = 3xy + 4yz + 2x + 5
+    int num_funciones = 2;
 
-    Function funcion;
-    funcion.num_variables = 3;
-    funcion.num_monomios = 4;
+    // ARRAY DE FUNCIONES
+    Function *funciones = malloc(num_funciones * sizeof(Function));
 
-    funcion.monomios = malloc(funcion.num_monomios * sizeof(Monomio));
 
-    // Cada monomio necesita un array de exponente, por lo que inicializamos todo a 0
-    for(int i = 0; i < funcion.num_monomios; i++) {
-        funcion.monomios[i].exponentes = calloc(funcion.num_variables, sizeof(int));
+    /* ========================================
+       FUNCIÓN 0
+
+       f1(x,y,z) = 3xy + 4yz + 2x + 5
+       ======================================== */
+
+    funciones[0].num_variables = 3;
+    funciones[0].num_monomios = 4;
+
+    funciones[0].monomios = malloc(funciones[0].num_monomios * sizeof(Monomio));
+
+    for(int i = 0; i < funciones[0].num_monomios; i++) {
+        funciones[0].monomios[i].exponentes = calloc(funciones[0].num_variables, sizeof(int));
     }
 
-    // MONOMIO 0 --> 3xy
-    funcion.monomios[0].coeficiente = 3;
-    funcion.monomios[0].exponentes[0] = 1; //x
-    funcion.monomios[0].exponentes[1] = 1; //y
-    funcion.monomios[0].exponentes[2] = 0; //z
+    // 3xy
+    funciones[0].monomios[0].coeficiente = 3;
+    funciones[0].monomios[0].exponentes[0] = 1;
+    funciones[0].monomios[0].exponentes[1] = 1;
 
-    // MONOMIO 1 --> 4yz
-    funcion.monomios[1].coeficiente = 4;
-    funcion.monomios[1].exponentes[0] = 0; //x
-    funcion.monomios[1].exponentes[1] = 1; //y
-    funcion.monomios[1].exponentes[2] = 1; //z
-
-    // MONOMIO 2 --> 2x
-    funcion.monomios[2].coeficiente = 2;
-    funcion.monomios[2].exponentes[0] = 1; //x
-    funcion.monomios[2].exponentes[1] = 0; //y
-    funcion.monomios[2].exponentes[2] = 0; //z
-
-    // MONOMIO 3 --> 5
-    funcion.monomios[3].coeficiente = 5;
-    funcion.monomios[3].exponentes[0] = 0; //x
-    funcion.monomios[3].exponentes[1] = 0; //y
-    funcion.monomios[3].exponentes[2] = 0; //z
+    // 4yz
+    funciones[0].monomios[1].coeficiente = 4;
+    funciones[0].monomios[1].exponentes[1] = 1;
+    funciones[0].monomios[1].exponentes[2] = 1;
 
 
-    // PUNTO DONDE EVALUAMOS: (x, y, z) = (1, 2, 3)
+    // 2x
+    funciones[0].monomios[2].coeficiente = 2;
+    funciones[0].monomios[2].exponentes[0] = 1;
+
+    // 5
+    funciones[0].monomios[3].coeficiente = 5;
+
+
+
+    /* ========================================
+       FUNCIÓN 1
+
+       f2(x,y,z) = x² + yz + 3z
+       ======================================== */
+
+    funciones[1].num_variables = 3;
+    funciones[1].num_monomios = 3;
+
+    funciones[1].monomios = malloc(funciones[1].num_monomios * sizeof(Monomio));
+
+    for(int i = 0; i < funciones[1].num_monomios; i++) {
+        funciones[1].monomios[i].exponentes = calloc(funciones[1].num_variables, sizeof(int));
+    }
+
+    // x²
+    funciones[1].monomios[0].coeficiente = 1;
+    funciones[1].monomios[0].exponentes[0] = 2;
+
+    // yz
+    funciones[1].monomios[1].coeficiente = 1;
+    funciones[1].monomios[1].exponentes[1] = 1;
+    funciones[1].monomios[1].exponentes[2] = 1;
+
+    // 3z
+    funciones[1].monomios[2].coeficiente = 3;
+    funciones[1].monomios[2].exponentes[2] = 1;
+
+
+    /* ========================================
+       PUNTO DE EVALUACIÓN
+       ======================================== */
+
     double punto[] = {1.0, 2.0, 3.0};
 
-    //Guardar derivadas
-    double gradiente[3];
 
-    calcular_gradiente(&funcion, punto, gradiente);
+    /* ========================================
+       RESERVAR LOS GRADIENTES
 
-    printf("Gradiente: \n");
-    for(int i = 0; i < funcion.num_variables; i++) {
-        printf("%.2f ", gradiente[i]);
+       gradientes[0] -> gradiente función 0
+       gradientes[1] -> gradiente función 1
+       ======================================== */
+
+    double **gradientes = malloc(num_funciones * sizeof(double *));
+
+    for(int f = 0; f < num_funciones; f++) {
+        gradientes[f] = malloc(funciones[f].num_variables * sizeof(double));
     }
 
-    printf("\n");
 
-    // LIBERAR MEMORIA
-    for(int i = 0; i < funcion.num_monomios; i++) {
-        free(funcion.monomios[i].exponentes);
+    /* ========================================
+       CALCULAR TODOS LOS GRADIENTES
+       ======================================== */
+
+    calcular_gradientes(funciones, num_funciones, punto, gradientes);
+
+
+    /* ========================================
+       MOSTRAR RESULTADOS
+       ======================================== */
+
+    for(int f = 0; f < num_funciones; f++) {
+        printf("Gradiente funcion %d: ", f);
+
+        for(int v = 0; v < funciones[f].num_variables; v++) {
+            printf("%.2f ", gradientes[f][v]);
+        }
+
+        printf("\n");
     }
 
-    free(funcion.monomios);
+
+    /* ========================================
+       LIBERAR MEMORIA
+       ======================================== */
+
+    for(int f = 0; f < num_funciones; f++) {
+        for(int m = 0; m < funciones[f].num_monomios; m++) {
+            free(funciones[f].monomios[m].exponentes);
+        }
+
+        free(funciones[f].monomios);
+        free(gradientes[f]);
+    }
+
+    free(gradientes);
+    free(funciones);
 
     return 0;
 }
