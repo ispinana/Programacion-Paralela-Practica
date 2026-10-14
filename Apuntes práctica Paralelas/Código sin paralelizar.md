@@ -57,20 +57,20 @@ RESULTADO: 3x + 4z
 
 RESULTADO: 4y
 ## 2. Juntar las tres derivadas
-Al juntarlo, queda tal que así:
+Al juntarlos, queda tal que así:
 ```text
 ∇f(x, y, z) = (3y + 2, 3x + 4z, 4y)
 ```
 
-Ahora, el enunciado como tal utiliza la equivalencia donde: (x, y, z) = (1, 2, 3), por lo que al sustituir cada valor se obtiene lo siguiente:
+Ahora, el enunciado de ejemplo en los apuntes, como tal, utiliza la equivalencia donde: (x, y, z) = (1, 2, 3), por lo que al sustituir cada valor se obtiene lo siguiente:
 
 ```text
 ∇f(x, y, z) = (3*2 + 2, 3*1 + 4*3, 4*2)
 ∇f(x, y, z) = 8, 15, 8)
 ```
 
-# Aplicación del cálculo al codigo
-La apicación del codigo a nivel estructural es separar la función en cada monomio, donde trabaja en cada iteración con una variable concreta, es decir:
+# Aplicación del cálculo al código
+La apicación del código a nivel estructural es separar la función en cada monomio, donde trabaja en cada iteración con una variable concreta, es decir:
 
 ```text
                  FUNCIÓN
