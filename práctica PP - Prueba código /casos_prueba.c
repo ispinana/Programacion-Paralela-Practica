@@ -76,7 +76,7 @@ double *crear_punto_basico() {
 
 
 Function *crear_funciones_prueba(int num_funciones, int num_variables, int num_monomios) {
-    Function *funciones = malloc(num_funciones + sizeof(Function));
+    Function *funciones = malloc(num_funciones * sizeof(Function));
 
     for(int f = 0; f < num_funciones; f++) {
         funciones[f].num_variables = num_variables;
