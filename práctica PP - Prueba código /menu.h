@@ -1,6 +1,16 @@
 #ifndef MENU_H
 #define MENU_H
 
-void ejecutar_menu(void);
+typedef struct {
+    int modo;
+    int tipo_problema;
+    int num_funciones;
+    int num_variables;
+    int num_monomios;
+    int opcion_funciones;
+    int opcion_punto;
+} OpcionesMenu;
+
+OpcionesMenu mostrar_menu(void);
 
 #endif
