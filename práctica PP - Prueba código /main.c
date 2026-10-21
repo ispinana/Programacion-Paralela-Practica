@@ -52,11 +52,16 @@ int main(void) {
         return 1;
     }
 
-    if (opciones.modo == 2) {
-        printf("\nAviso: OpenMP todavia no esta implementado; ");
-        printf("se calcula secuencialmente.\n");
+    if (opciones.modo == 1) {
+        calcular_gradientes(funciones, num_funciones, punto, gradientes);
+
+    } else if (opciones.modo == 2) {
+        printf("\nAviso: OpenMP todavia no esta implementado.\n");
+        printf("Se ejecutara el calculo secuencial.\n");
+
+        calcular_gradientes(funciones, num_funciones, punto, gradientes);
     }
-    calcular_gradientes(funciones, num_funciones, punto, gradientes);
+    
 
     /* MOSTRAR RESULTADOS */
     printf("\n=== RESULTADOS ===\n");
