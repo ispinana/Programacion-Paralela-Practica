@@ -11,14 +11,10 @@
             "id": "3d223a15e5755a26",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "3.- Donde poner la paralelizacion en el codigo.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "3.- Donde poner la paralelizacion en el codigo"
+              "title": "Nueva pestaña"
             }
           }
         ]
@@ -187,10 +183,11 @@
   },
   "active": "3d223a15e5755a26",
   "lastOpenFiles": [
-    "2.- Código sin paralelizar con múltiples funciones.md",
     "5.- Concepto del menú (ÁGATA).md",
     "4.- Código ordenado.md",
     "3.- Donde poner la paralelizacion en el codigo.md",
-    "1.- Código sin paralelizar.md"
+    "2.- Código sin paralelizar con múltiples funciones.md",
+    "1.- Código sin paralelizar.md",
+    "Código sin paralelizar.md"
   ]
 }
