@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "3.- ¿Dónde poner la paralelización en el codigo?.md",
+                "file": "3.- Donde poner la paralelizacion en el codigo.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "3.- ¿Dónde poner la paralelización en el codigo?"
+              "title": "3.- Donde poner la paralelizacion en el codigo"
             }
           }
         ]
@@ -190,7 +190,7 @@
     "2.- Código sin paralelizar con múltiples funciones.md",
     "5.- Concepto del menú (ÁGATA).md",
     "4.- Código ordenado.md",
-    "3.- ¿Dónde poner la paralelización en el codigo?.md",
+    "3.- Donde poner la paralelizacion en el codigo.md",
     "1.- Código sin paralelizar.md"
   ]
 }
