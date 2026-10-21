@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "casos_prueba.h"
 
@@ -153,7 +154,7 @@ double *crear_punto_usuario(int num_variables) {
     double *punto = malloc(num_variables * sizeof(double));
 
     if(punto == NULL) {
-        print("Error reservando memoria para el punto.\n");
+        printf("Error reservando memoria para el punto.\n");
         return NULL;
     }
 
